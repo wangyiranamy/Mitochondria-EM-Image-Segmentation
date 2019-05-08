@@ -18,11 +18,14 @@ def test(args):
     target_size = (size,size)
     test_data,masks = data_gen.test_gen(target_size=target_size)
     if args['model']=='unet':
-        unet = Unet(input_size=target_size,path='saved_model/')
+        unet = Unet(input_size=target_size)
         unet.load('unet')
     elif args['model']=='attention':
-        unet = Attention_unet(input_size=target_size,path='saved_model/')
+        unet = Attention_unet(input_size=target_size)
         unet.load('attention_unet')
+    elif args['model']=='dense':
+        unet = Dense_unet(input_size=target_size)
+        unet.load('dense')
     results = unet.predict(test_data)
     path = 'data/results/'+args['model']+'_results'
     save_results(results,path)
@@ -41,7 +44,7 @@ def test(args):
 
 if __name__ =='__main__':
     parser = ArgumentParser()
-    parser.add_argument('--model',choices=['unet','attention'],default='attention')
+    parser.add_argument('--model',choices=['unet','attention','dense'],default='attention')
     parser.add_argument('--size',default=256)
     args=vars(parser.parse_args())
     test(args)

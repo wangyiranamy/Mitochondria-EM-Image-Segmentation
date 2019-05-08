@@ -65,7 +65,7 @@ class Data_generator():
         seed = 1)
         train_generator = zip(image_generator, mask_generator)
         for (img,mask) in train_generator:
-
+            # img[0,:,:,0] = preprocess_gamma_hist(img[0,:,:,0]).astype(np.float)
             img,mask = img/255,mask/255
             yield (img,mask)
     def test_gen(self,target_size=(384,512)):
@@ -85,6 +85,7 @@ class Data_generator():
             mask = np.reshape(mask,(1,)+mask.shape)
             img = np.reshape(img,img.shape+(1,))
             img = np.reshape(img,(1,)+img.shape)
+            # img[0,:,:,0] = preprocess_gamma_hist(img[0,:,:,0]).astype(np.float)
             imgs[i]=img
             masks[i]=mask
         return imgs,masks
